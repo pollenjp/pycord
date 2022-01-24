@@ -1793,15 +1793,18 @@ class DMChannel(discord.abc.Messageable, Hashable):
         The user presenting yourself.
     id: :class:`int`
         The direct message channel ID.
+    name: :class:`str`
+        The direct message channel name.
     """
 
-    __slots__ = ('id', 'recipient', 'me', '_state')
+    __slots__ = ('id', 'recipient', 'me', '_state', 'name')
 
     def __init__(self, *, me: ClientUser, state: ConnectionState, data: DMChannelPayload):
         self._state: ConnectionState = state
         self.recipient: Optional[User] = state.store_user(data['recipients'][0])
         self.me: ClientUser = me
         self.id: int = int(data['id'])
+        self.name: str = data.get('name')
 
     async def _get_channel(self):
         return self
